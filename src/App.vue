@@ -1,0 +1,229 @@
+<script setup>
+import "@fontsource/im-fell-double-pica-sc";
+import { store } from "./lib/store";
+import ChooseCeremony from "./lib/ChooseCeremony.vue";
+import GetPT from "./lib/GetPT.vue";
+import { ref } from "vue";
+let welcomeVisible = ref(true);
+setTimeout(() => {
+  const mask = document.querySelector(".background-mask");
+  mask.style.opacity = 1;
+  console.log("Welcome to Darqnet 🔮");
+  welcomeVisible.value = false;
+}, 7500);
+</script>
+
+<template>
+  <h1 v-if="welcomeVisible" class="welcome">DARQNET</h1>
+  <Transition>
+    <ChooseCeremony v-if="!welcomeVisible && !store.ceremonyChosen" />
+  </Transition>
+  <Transition>
+    <GetPT v-if="store.ceremonyType === 'open' && !store.acquiredPT" />
+  </Transition>
+  <Transition>
+    <h2 v-if="store.beginIntentions">Intentions</h2>
+  </Transition>
+  <Transition>
+    <h2 v-if="store.ceremonyType === 'close'">Closing Ceremony</h2>
+  </Transition>
+</template>
+
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+:root {
+  --bg-dark: #050019;
+  font-family: "IM Fell Double Pica SC", serif;
+  font-size: 17px;
+  color: #fff;
+  background-color: var(--bg-dark);
+  --dark-gradient: linear-gradient(
+    to right bottom,
+    #fbc381,
+    #e1995a,
+    #c76f38,
+    #ac441c,
+    #900505
+  );
+  --light-gradient: linear-gradient(
+    to right bottom,
+    #fbc381,
+    #eeae6d,
+    #e1995a,
+    #d48448,
+    #c76f38
+  );
+  --success-gradient: linear-gradient(
+    to right bottom,
+    #ff5555,
+    #e1423f,
+    #c42f2a,
+    #a71b16,
+    #8b0000
+  );
+
+  --success-border: linear-gradient(
+    to right bottom,
+    #fd4444,
+    #da3533,
+    #b82522,
+    #971513,
+    #780202
+  );
+
+  --decrypt-gradient: linear-gradient(
+    to right bottom,
+    #04eca3,
+    #01c78a,
+    #01a371,
+    #028159,
+    #036042
+  );
+
+  --close-circle: rgb(255, 86, 86);
+  --open-circle: #fbe995;
+  --flame-color: #1942f9;
+  --teardrop-ds: #5869b5;
+  --success: #04eca3;
+  --bg-mask-primary: linear-gradient(
+    to right,
+    #0a0036,
+    #171352,
+    #2a2071,
+    #3e2e90,
+    #543cb1
+  );
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: hidden;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* || ANIMATIONS */
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn-Out {
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes shiftBG {
+  100% {
+    background-position: top center;
+  }
+}
+
+/* GLOBAL STYLES */
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.background-mask {
+  opacity: 0;
+  min-height: 100vh;
+  width: 100%;
+  background-image: var(--bg-mask-primary);
+  position: absolute;
+  z-index: -1;
+  transition: opacity 2.2s;
+  background-size: 300%;
+  background-position: top left;
+  animation: shiftBG 2.5s infinite alternate;
+  --mask: radial-gradient(
+        14.76px at calc(100% + 5.85px) 50%,
+        #0000 calc(99% - 1px),
+        #000 calc(101% - 1px) 99%,
+        #0000 101%
+      )
+      calc(50% - 7px + 0.5px) calc(50% - 26px) / 14px 52px,
+    radial-gradient(
+        14.76px at -5.85px 50%,
+        #0000 calc(99% - 1px),
+        #000 calc(101% - 1px) 99%,
+        #0000 101%
+      )
+      calc(50% + 7px) 50%/14px 52px;
+  --webkit-mask: var(--mask);
+  mask: var(--mask);
+}
+
+.ceremonyContainer {
+  backdrop-filter: blur(1.9px);
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.welcome {
+  font-family: "IM Fell Double Pica SC", serif;
+  opacity: 0;
+  font-size: 4rem;
+  border-bottom: solid 1.8px #1942f979;
+  border-radius: 50%;
+  padding: 0 0 0.5em 0;
+  animation: fadeIn-Out 6s 1s ease-in forwards;
+  filter: drop-shadow(0 0 0.035em var(--flame-color));
+}
+
+/* COMPONENT STYLES */
+.chooseCeremony__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+conjuration-input,
+encryption-message,
+shard-input,
+reveal-intentions,
+decryption-message {
+  width: 100%;
+}
+
+reveal-intentions {
+  margin-bottom: 6.5rem;
+}
+
+participant-input {
+  width: 65%;
+}
+</style>
