@@ -12,7 +12,7 @@
     }
   },
   "scripts": {
-    "dev": "rm -rf dist && parcel",
+    "dev": "parcel",
     "build": "rm -rf dist && parcel build --public-url /darqnet-vue/",
     "deploy": "gh-pages -d dist"
   },
