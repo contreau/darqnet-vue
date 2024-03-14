@@ -47,4 +47,17 @@ export const store = reactive({
 
   // intentions submission
   beginIntentions: false,
+  acquiredIntentions: false,
+  intentions: {
+    dreams: [],
+    conjurations: [],
+    essence: [],
+  },
+  saveIntentions(d, c, e) {
+    this.intentions.dreams.push(d);
+    this.intentions.conjurations.push(c);
+    this.intentions.essence.push(e);
+    this.acquiredIntentions = true;
+    console.log(this.intentions);
+  },
 });

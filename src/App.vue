@@ -1,8 +1,9 @@
 <script setup>
 import "@fontsource/im-fell-double-pica-sc";
 import { store } from "./lib/store";
-import ChooseCeremony from "./lib/ChooseCeremony.vue";
-import GetPT from "./lib/GetPT.vue";
+import ChooseCeremony from "./lib/opening/ChooseCeremony.vue";
+import GetPT from "./lib/opening/GetPT.vue";
+import GetIntentions from "./lib/opening/GetIntentions.vue";
 import { ref } from "vue";
 let welcomeVisible = ref(true);
 setTimeout(() => {
@@ -22,7 +23,7 @@ setTimeout(() => {
     <GetPT v-if="store.ceremonyType === 'open' && !store.acquiredPT" />
   </Transition>
   <Transition>
-    <h2 v-if="store.beginIntentions">Intentions</h2>
+    <GetIntentions v-if="store.beginIntentions && !store.acquiredIntentions" />
   </Transition>
   <Transition>
     <h2 v-if="store.ceremonyType === 'close'">Closing Ceremony</h2>
