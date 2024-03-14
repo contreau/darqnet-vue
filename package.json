@@ -12,13 +12,12 @@
     }
   },
   "scripts": {
-    "dev": "parcel",
+    "dev": "rm -rf dist && parcel",
     "build": "rm -rf dist && parcel build --public-url /darqnet-vue/",
     "deploy": "gh-pages -d dist"
   },
   "alias": {
-    "vue": "vue/dist/vue.esm-browser.prod.js",
-    "uint8arrays": false
+    "vue": "vue/dist/vue.esm-browser.prod.js"
   },
   "keywords": [],
   "author": "Conor Kelley",
@@ -44,7 +43,6 @@
     "key-did-provider-ed25519": "^1.1.0",
     "key-did-resolver": "^1.4.0",
     "sss-wasm": "^0.4.0",
-    "uint8arrays": "^4.0.4",
     "vue": "^3.4.21"
   }
 }
