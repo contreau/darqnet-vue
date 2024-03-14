@@ -35,6 +35,16 @@ export const store = reactive({
     }, 500);
   },
 
+  // shards
+  saveShards(shards) {
+    this.shards = shards;
+    console.log(this.shards);
+    console.log(this.did.id);
+  },
+
+  // DID
+  did: "",
+
   // intentions submission
   beginIntentions: false,
 });

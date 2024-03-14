@@ -2,6 +2,11 @@
 import { onMounted } from "vue";
 import { ref } from "vue";
 import { store } from "./store";
+import { getResolver } from "key-did-resolver";
+import * as Bip39 from "bip39";
+import { Ed25519Provider } from "key-did-provider-ed25519";
+import { DID } from "dids";
+import * as seedsplit from "../js/seedsplit";
 let queryText;
 let input;
 onMounted(() => {
@@ -30,9 +35,21 @@ function processPT() {
     ) {
       store.threshold = parseInt(input.value);
       input.value = "";
+      createShards(store.participants, store.threshold);
       store.fadeOutPT();
     }
   }
+}
+
+async function createShards(participants, threshold) {
+  const mnemonic = Bip39.generateMnemonic();
+  const seed = new Uint8Array(Bip39.mnemonicToSeedSync(mnemonic).slice(0, 32));
+  const provider = new Ed25519Provider(seed);
+  const did = new DID({ provider, resolver: getResolver() });
+  await did.authenticate();
+  store.did = did;
+  const shards = await seedsplit.split(mnemonic, participants, threshold);
+  store.saveShards(shards);
 }
 
 function validateThreshold() {
