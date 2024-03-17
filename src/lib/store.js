@@ -20,6 +20,7 @@ export const store = reactive({
 
   // participant and threshold
   participants: 0,
+  participantLabel: 1,
   threshold: 0,
   acquiredPT: false,
   fadeOutPT() {
@@ -57,7 +58,16 @@ export const store = reactive({
     this.intentions.dreams.push(d);
     this.intentions.conjurations.push(c);
     this.intentions.essence.push(e);
-    this.acquiredIntentions = true;
+    if (this.participantLabel < this.participants) {
+      this.participantLabel++;
+      this.rerender = !this.rerender; // trigger rerender of component
+      console.log("rerendering.");
+    } else if (this.participantLabel === this.participants) {
+      this.acquiredIntentions = true;
+    }
     console.log(this.intentions);
   },
+
+  // trigger rerender of GetIntentions
+  rerender: false,
 });

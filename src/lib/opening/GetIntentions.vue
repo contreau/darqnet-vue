@@ -50,12 +50,13 @@ function pushIntentions() {
     store.saveIntentions(dreams, conjurations, essence);
   }
 }
+const props = defineProps(["participantLabel"]);
 </script>
 
 <template>
   <div class="input__container">
     <div class="heading__container">
-      <p class="participant-label"></p>
+      <p class="participant-label">participant {{ props.participantLabel }}</p>
       <p class="queryText">
         <Transition>
           <span v-if="!dreamFadeOut"
