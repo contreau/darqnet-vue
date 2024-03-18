@@ -5,6 +5,7 @@ import ChooseCeremony from "./lib/opening/ChooseCeremony.vue";
 import GetPT from "./lib/opening/GetPT.vue";
 import GetIntentions from "./lib/opening/GetIntentions.vue";
 import { ref } from "vue";
+import EncryptionMessage from "./lib/opening/EncryptionMessage.vue";
 let welcomeVisible = ref(true);
 setTimeout(() => {
   const mask = document.querySelector(".background-mask");
@@ -15,6 +16,7 @@ setTimeout(() => {
 </script>
 
 <template>
+  <!-- uncomment this for production -->
   <h1 v-if="welcomeVisible" class="welcome">DARQNET</h1>
   <Transition>
     <ChooseCeremony v-if="!welcomeVisible && !store.ceremonyChosen" />
@@ -22,8 +24,18 @@ setTimeout(() => {
   <Transition>
     <GetPT v-if="store.ceremonyType === 'open' && !store.acquiredPT" />
   </Transition>
+
+  <!-- remove this for production -->
+  <!-- <Transition>
+    <GetPT v-if="!store.acquiredPT" />
+  </Transition> -->
+  <GetIntentions
+    v-if="store.beginIntentions && !store.acquiredIntentions"
+    :participantLabel="store.participantLabel"
+    :key="store.rerender"
+  />
   <Transition>
-    <GetIntentions v-if="store.beginIntentions && !store.acquiredIntentions" />
+    <EncryptionMessage v-if="store.acquiredIntentions" />
   </Transition>
   <Transition>
     <h2 v-if="store.ceremonyType === 'close'">Closing Ceremony</h2>
@@ -110,9 +122,9 @@ setTimeout(() => {
   box-sizing: border-box;
 }
 
-html {
+/* html {
   overflow-y: hidden;
-}
+} */
 
 html,
 body {
