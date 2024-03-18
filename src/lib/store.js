@@ -40,10 +40,11 @@ export const store = reactive({
   saveShards(shards) {
     this.shards = shards;
     console.log("Shards:", this.shards);
+    console.log("DID:", this.did);
   },
 
   // DID
-  did: "",
+  did: null,
 
   // intentions submission
   beginIntentions: false,
