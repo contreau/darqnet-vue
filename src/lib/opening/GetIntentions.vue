@@ -2,17 +2,18 @@
 import { store } from "../store";
 import { ref } from "vue";
 import { onMounted } from "vue";
+import SeedphraseDisplay from "./SeedphraseDisplay.vue";
 
 let gotDreams = ref(false);
 let gotConjurations = ref(false);
-let gotEssence = ref(false);
 let dreamFadeOut = ref(false);
 let conjFadeOut = ref(false);
 let essenceFadeOut = ref(false);
+let isFaded = ref(false);
+let seedphraseVisible = ref(false);
 let dreams = "";
 let conjurations = "";
 let essence = "";
-
 let input;
 let submitBTN;
 
@@ -23,7 +24,7 @@ onMounted(() => {
   }, 2000);
 });
 
-function pushIntentions() {
+async function pushIntentions() {
   if (!gotDreams.value) {
     dreams = input.value;
     dreamFadeOut.value = true;
@@ -43,18 +44,22 @@ function pushIntentions() {
   } else if (gotDreams.value && gotConjurations.value) {
     essence = input.value;
     essenceFadeOut.value = true;
-    setTimeout(() => {
-      gotEssence.value = true;
-    }, 500);
     input.value = "";
-    store.saveIntentions(dreams, conjurations, essence);
+    isFaded.value = true;
+    setTimeout(() => {
+      seedphraseVisible.value = true;
+    }, 500);
   }
 }
 const props = defineProps(["participantLabel"]);
 </script>
 
 <template>
-  <div class="input__container">
+  <div
+    class="input__container"
+    :class="{ faded: isFaded }"
+    v-if="!seedphraseVisible"
+  >
     <div class="heading__container">
       <p class="participant-label">participant {{ props.participantLabel }}</p>
       <p class="queryText">
@@ -97,9 +102,18 @@ const props = defineProps(["participantLabel"]);
       </button>
     </div>
   </div>
+  <SeedphraseDisplay
+    v-if="seedphraseVisible"
+    :shard="props.participantLabel - 1"
+    :intentions="[dreams, conjurations, essence]"
+  />
 </template>
 
 <style scoped>
+.faded {
+  opacity: 0;
+}
+
 textarea,
 button {
   background: transparent;
@@ -153,6 +167,7 @@ button {
   min-height: 700px;
   margin: 0 auto;
   border-radius: 50%;
+  transition: opacity 0.4s;
 }
 
 .input__area {
@@ -173,7 +188,7 @@ button {
 }
 
 .participant-label {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   color: var(--open-circle);
   filter: drop-shadow(0 0 0.2em var(--open-circle));
 }

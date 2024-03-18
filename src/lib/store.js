@@ -39,8 +39,7 @@ export const store = reactive({
   // shards
   saveShards(shards) {
     this.shards = shards;
-    console.log(this.shards);
-    console.log(this.did.id);
+    console.log("Shards:", this.shards);
   },
 
   // DID
@@ -61,11 +60,12 @@ export const store = reactive({
     if (this.participantLabel < this.participants) {
       this.participantLabel++;
       this.rerender = !this.rerender; // trigger rerender of component
-      console.log("rerendering.");
     } else if (this.participantLabel === this.participants) {
       this.acquiredIntentions = true;
     }
-    console.log(this.intentions);
+    if (this.intentions.dreams.length === this.participants) {
+      console.log("Intentions:", this.intentions);
+    }
   },
 
   // trigger rerender of GetIntentions
