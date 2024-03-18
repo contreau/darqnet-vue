@@ -1,5 +1,4 @@
 <script setup>
-import { store } from "../store";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import SeedphraseDisplay from "./SeedphraseDisplay.vue";
