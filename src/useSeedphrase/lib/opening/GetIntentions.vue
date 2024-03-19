@@ -123,11 +123,12 @@ button {
 
 .input {
   opacity: 0;
+  font-family: "IM Fell DW Pica", serif;
   animation: fadeIn 0.4s 2s ease-in forwards;
   color: #fff;
   border-radius: 100px;
   padding: 0.9em 0.9em 0 0.9em;
-  font-size: 1.7rem;
+  font-size: 1.45rem;
   min-width: 800px;
   outline: none;
   text-align: center;
@@ -182,7 +183,6 @@ button {
 .heading__container {
   opacity: 0;
   text-align: center;
-  margin-top: 4.5rem;
   animation: fadeIn 0.4s 1.8s ease-in forwards;
 }
 

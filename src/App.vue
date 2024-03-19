@@ -1,11 +1,12 @@
 <script setup>
 import "@fontsource/im-fell-double-pica-sc";
-import { store } from "./lib/store";
-import ChooseCeremony from "./lib/opening/ChooseCeremony.vue";
-import GetPT from "./lib/opening/GetPT.vue";
-import GetIntentions from "./lib/opening/GetIntentions.vue";
+import "@fontsource/im-fell-dw-pica";
+import { store } from "./useSeedphrase/lib/store";
+import ChooseCeremony from "./useSeedphrase/lib/opening/ChooseCeremony.vue";
+import GetPT from "./useSeedphrase/lib/opening/GetPT.vue";
+import GetIntentions from "./useSeedphrase/lib/opening/GetIntentions.vue";
 import { ref } from "vue";
-import EncryptionMessage from "./lib/opening/EncryptionMessage.vue";
+import EncryptionMessage from "./useSeedphrase/lib/opening/EncryptionMessage.vue";
 let welcomeVisible = ref(true);
 setTimeout(() => {
   const mask = document.querySelector(".background-mask");
@@ -122,9 +123,9 @@ setTimeout(() => {
   box-sizing: border-box;
 }
 
-/* html {
+html {
   overflow-y: hidden;
-} */
+}
 
 html,
 body {

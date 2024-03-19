@@ -39,8 +39,8 @@ export const store = reactive({
   // shards
   saveShards(shards) {
     this.shards = shards;
-    console.log("Shards:", this.shards);
-    console.log("DID:", this.did);
+    // console.log("Shards:", this.shards);
+    // console.log("DID:", this.did);
   },
 
   // DID
@@ -64,9 +64,9 @@ export const store = reactive({
     } else if (this.participantLabel === this.participants) {
       this.acquiredIntentions = true;
     }
-    if (this.intentions.dreams.length === this.participants) {
-      console.log("Intentions:", this.intentions);
-    }
+    // if (this.intentions.dreams.length === this.participants) {
+    //   console.log("Intentions:", this.intentions);
+    // }
   },
 
   // trigger rerender of GetIntentions

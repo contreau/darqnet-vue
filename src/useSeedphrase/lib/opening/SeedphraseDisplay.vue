@@ -1,5 +1,4 @@
 <script setup>
-import "@fontsource/im-fell-dw-pica";
 import { ref } from "vue";
 import { store } from "../store";
 const props = defineProps(["shard", "intentions"]);
