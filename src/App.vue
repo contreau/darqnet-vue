@@ -1,12 +1,15 @@
 <script setup>
 import "@fontsource/im-fell-double-pica-sc";
 import "@fontsource/im-fell-dw-pica";
+import { ref } from "vue";
 import { store } from "./useSeedphrase/lib/store";
 import ChooseCeremony from "./useSeedphrase/lib/opening/ChooseCeremony.vue";
 import GetPT from "./useSeedphrase/lib/opening/GetPT.vue";
 import GetIntentions from "./useSeedphrase/lib/opening/GetIntentions.vue";
-import { ref } from "vue";
 import EncryptionMessage from "./useSeedphrase/lib/opening/EncryptionMessage.vue";
+import GetThreshold from "./useSeedphrase/lib/closing/GetThreshold.vue";
+import GetShards from "./useSeedphrase/lib/closing/GetShards.vue";
+import DecryptionMessage from "./useSeedphrase/lib/closing/DecryptionMessage.vue";
 let welcomeVisible = ref(true);
 setTimeout(() => {
   const mask = document.querySelector(".background-mask");
@@ -38,8 +41,40 @@ setTimeout(() => {
   <Transition>
     <EncryptionMessage v-if="store.acquiredIntentions" />
   </Transition>
+
+  <!-- CLOSING CEREMONY -->
+
+  <!-- remove this for production -->
+  <!-- <Transition>
+    <GetThreshold v-if="!store.acquiredThreshold" />
+  </Transition> -->
+
+  <!-- <GetShards
+    v-if="store.acquiredThreshold && store.collectingShards"
+    :shardNumber="store.shardNumber"
+    :key="store.rerender"
+  />
+
   <Transition>
-    <h2 v-if="store.ceremonyType === 'close'">Closing Ceremony</h2>
+    <DecryptionMessage v-if="store.acquiredClosingShards" />
+  </Transition> -->
+
+  <!-- uncomment for production -->
+
+  <Transition>
+    <GetThreshold
+      v-if="store.ceremonyType === 'close' && !store.acquiredThreshold"
+    />
+  </Transition>
+
+  <GetShards
+    v-if="store.acquiredThreshold && store.collectingShards"
+    :shardNumber="store.shardNumber"
+    :key="store.rerender"
+  />
+
+  <Transition>
+    <DecryptionMessage v-if="store.acquiredClosingShards" />
   </Transition>
 </template>
 

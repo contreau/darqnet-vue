@@ -71,4 +71,37 @@ export const store = reactive({
 
   // trigger rerender of GetIntentions
   rerender: false,
+
+  //*** Closing Ceremony ***
+  acquiredThreshold: false,
+  collectingShards: false,
+  acquiredClosingShards: false,
+  shardNumber: 1,
+  saveThreshold(t) {
+    this.threshold = t;
+    this.acquiredThreshold = true;
+    console.log("threshold:", this.threshold);
+    setTimeout(() => {
+      this.collectingShards = true;
+    }, 600);
+  },
+  saveClosingShards(shard) {
+    if (this.shards === undefined) {
+      this.shards = [];
+      this.shards.push(shard);
+    } else {
+      this.shards.push(shard);
+    }
+    if (this.shardNumber < this.threshold) {
+      this.shardNumber++;
+      this.rerender = !this.rerender;
+    } else if (this.shardNumber === this.threshold) {
+      this.acquiredClosingShards = true;
+      this.collectingShards = false;
+    }
+  },
+  saveRetrievedIntentions(ct) {
+    this.cleartext = ct;
+    console.log("Retrieved intentions:", this.cleartext);
+  },
 });
