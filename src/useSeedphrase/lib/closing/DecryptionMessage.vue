@@ -1,38 +1,9 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { store } from "../store";
-import { DID } from "dids";
-import { CeramicClient } from "@ceramicnetwork/http-client";
-import { TileDocument } from "@ceramicnetwork/stream-tile";
-import { Ed25519Provider } from "key-did-provider-ed25519";
-import KeyResolver from "key-did-resolver";
-import * as seedsplit from "../../js/seedsplit";
-import * as Bip39 from "bip39";
+import { ref } from "vue";
 let type = ref("default");
-const API_URL = "https://ceramic-clay.3boxlabs.com";
-
-async function decryptShards(API_URL) {
-  const mnemonic = await seedsplit.combine(store.shards);
-  const seed = new Uint8Array(Bip39.mnemonicToSeedSync(mnemonic).slice(0, 32));
-  const provider = new Ed25519Provider(seed);
-  const did = new DID({ provider, resolver: KeyResolver.getResolver() });
-  await did.authenticate();
-  const ceramic = new CeramicClient(API_URL);
-  ceramic.did = did;
-  const doc = await TileDocument.create(
-    ceramic,
-    null,
-    { deterministic: true },
-    { anchor: false, publish: false }
-  );
-  const jwe = doc.content;
-  const cleartext = await did.decryptDagJWE(jwe);
-  store.saveRetrievedIntentions(cleartext);
-}
-
-onMounted(() => {
-  decryptShards(API_URL);
-});
+setTimeout(() => {
+  type.value = "success";
+}, 9700);
 </script>
 
 <template>
@@ -46,7 +17,7 @@ onMounted(() => {
       <div class="flame flame-2"></div>
       <div class="flame flame-3"></div>
     </div>
-    <div class="flame-base" type="default"></div>
+    <div class="flame-base" :type="type"></div>
   </div>
   <p class="message">decrypting intentions</p>
 </template>
@@ -209,9 +180,20 @@ onMounted(() => {
     min-height: 0;
   }
 }
+
+@keyframes fadeInOut {
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .message {
   opacity: 0;
-  font-size: 2.1rem;
+  animation: fadeInOut 8s 1s ease-in;
+  font-size: 2.8rem;
   font-weight: 700;
   text-align: center;
   margin-top: 5rem;

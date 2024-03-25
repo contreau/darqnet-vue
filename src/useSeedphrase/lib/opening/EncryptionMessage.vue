@@ -1,44 +1,9 @@
 <script setup>
-import { store } from "../store";
-import { onMounted, ref } from "vue";
-import { CeramicClient } from "@ceramicnetwork/http-client";
-import { TileDocument } from "@ceramicnetwork/stream-tile";
+import { ref } from "vue";
 
 let isFaded = ref(false);
 let encryptionDone = ref(false);
 let type = ref("default");
-const API_URL = "https://ceramic-clay.3boxlabs.com";
-async function encryptShards(API_URL) {
-  const ceramic = new CeramicClient(API_URL);
-  ceramic.did = store.did;
-  const doc = await TileDocument.create(
-    ceramic,
-    null,
-    { deterministic: true },
-    { anchor: false, publish: false }
-  );
-
-  const cp = "what will you conjure by the summer solstice?";
-  const ep = "feel into the moment and capture its essence.";
-  const dp = "what is your biggest dream for the new year?";
-  const c = store.intentions.conjurations;
-  const e = store.intentions.essence;
-  const d = store.intentions.dreams;
-
-  const jwe = await store.did.createDagJWE(
-    {
-      cp,
-      ep,
-      dp,
-      c,
-      e,
-      d,
-    },
-    [store.did.id]
-  );
-  console.log(JSON.stringify(jwe));
-  await doc.update(jwe);
-}
 
 setTimeout(() => {
   isFaded.value = true;
@@ -52,10 +17,6 @@ setTimeout(() => {
 setTimeout(() => {
   isFaded.value = false;
 }, 11000);
-
-onMounted(() => {
-  encryptShards(API_URL);
-});
 </script>
 
 <template>

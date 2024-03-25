@@ -12,6 +12,7 @@ onMounted(() => {
   input = document.querySelector(".input");
   input.focus();
 });
+
 function validateShard() {
   if (
     !Bip39.validateMnemonic(input.value.trim().split(" ").slice(1).join(" "))
@@ -152,7 +153,6 @@ button {
   text-align: center;
   filter: drop-shadow(0 0 0.3em var(--flame-color));
   color: #fff;
-  /* transition: 1s all; */
   transition: opacity 0.5s;
 }
 
