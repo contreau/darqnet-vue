@@ -88,7 +88,7 @@ export const store = reactive({
   collectingShards: false,
   acquiredClosingShards: false,
   decryptionError: false,
-  errorCheckDone: false,
+  decryptionVisible: false,
   shardNumber: 1,
 
   saveThreshold(t) {
@@ -131,8 +131,14 @@ export const store = reactive({
 
   saveRetrievedIntentions(ct) {
     this.cleartext = ct;
-    this.errorCheckDone = true;
+    this.decryptionVisible = true;
     console.log("Retrieved intentions:", this.cleartext);
+    setTimeout(() => {
+      this.decryptionVisible = false;
+    }, 11500);
+    setTimeout(() => {
+      this.intentionsVisible = true;
+    }, 12500);
   },
 
   showErrorMessage() {

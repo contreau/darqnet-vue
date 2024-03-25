@@ -11,6 +11,7 @@ import GetThreshold from "./useSeedphrase/lib/closing/GetThreshold.vue";
 import GetShards from "./useSeedphrase/lib/closing/GetShards.vue";
 import DecryptionMessage from "./useSeedphrase/lib/closing/DecryptionMessage.vue";
 import ErrorMessage from "./useSeedphrase/lib/closing/ErrorMessage.vue";
+import RevealIntentions from "./useSeedphrase/lib/closing/RevealIntentions.vue";
 let welcomeVisible = ref(true);
 setTimeout(() => {
   const mask = document.querySelector(".background-mask");
@@ -80,11 +81,15 @@ setTimeout(() => {
 
   <Transition>
     <DecryptionMessage
-      v-if="store.acquiredClosingShards && store.errorCheckDone"
+      v-if="store.acquiredClosingShards && store.decryptionVisible"
     />
   </Transition>
 
   <ErrorMessage v-if="store.decryptionError" />
+
+  <RevealIntentions
+    v-if="!store.decryptionVisible && store.intentionsVisible"
+  />
 </template>
 
 <style>

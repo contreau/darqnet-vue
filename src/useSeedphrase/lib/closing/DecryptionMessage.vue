@@ -1,28 +1,42 @@
 <script setup>
 import { ref } from "vue";
 let type = ref("default");
+let isFaded = ref(false);
 setTimeout(() => {
   type.value = "success";
 }, 9700);
+setTimeout(() => {
+  isFaded.value = true;
+}, 11000);
 </script>
 
 <template>
-  <div class="teardrop-wrap">
-    <div class="teardrop"></div>
-  </div>
-  <div class="orb-container container">
-    <div class="orb" type="default"></div>
-    <div class="flame-container container">
-      <div class="flame flame-1"></div>
-      <div class="flame flame-2"></div>
-      <div class="flame flame-3"></div>
+  <div class="wrapper" :class="{ faded: isFaded }">
+    <div class="teardrop-wrap">
+      <div class="teardrop"></div>
     </div>
-    <div class="flame-base" :type="type"></div>
+    <div class="orb-container container">
+      <div class="orb" type="default"></div>
+      <div class="flame-container container">
+        <div class="flame flame-1"></div>
+        <div class="flame flame-2"></div>
+        <div class="flame flame-3"></div>
+      </div>
+      <div class="flame-base" :type="type"></div>
+    </div>
+    <p class="message">decrypting intentions</p>
   </div>
-  <p class="message">decrypting intentions</p>
 </template>
 
 <style scoped>
+.faded {
+  opacity: 0;
+}
+
+.wrapper {
+  transition: opacity 0.4s;
+}
+
 .teardrop-wrap {
   opacity: 0;
   animation: fadeIn 0.7s ease-in forwards;
