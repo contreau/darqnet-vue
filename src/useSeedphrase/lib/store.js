@@ -132,7 +132,7 @@ export const store = reactive({
   saveRetrievedIntentions(ct) {
     this.cleartext = ct;
     this.decryptionVisible = true;
-    console.log("Retrieved intentions:", this.cleartext);
+    // console.log("Retrieved intentions:", this.cleartext);
     setTimeout(() => {
       this.decryptionVisible = false;
     }, 11500);
