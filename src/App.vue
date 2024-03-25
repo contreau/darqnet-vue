@@ -3,6 +3,7 @@ import "@fontsource/im-fell-double-pica-sc";
 import "@fontsource/im-fell-dw-pica";
 import { ref } from "vue";
 import { store } from "./useSeedphrase/lib/store";
+import { onMounted } from "vue";
 import ChooseCeremony from "./useSeedphrase/lib/opening/ChooseCeremony.vue";
 import GetPT from "./useSeedphrase/lib/opening/GetPT.vue";
 import GetIntentions from "./useSeedphrase/lib/opening/GetIntentions.vue";
@@ -12,58 +13,48 @@ import GetShards from "./useSeedphrase/lib/closing/GetShards.vue";
 import DecryptionMessage from "./useSeedphrase/lib/closing/DecryptionMessage.vue";
 import ErrorMessage from "./useSeedphrase/lib/closing/ErrorMessage.vue";
 import RevealIntentions from "./useSeedphrase/lib/closing/RevealIntentions.vue";
+import MobileMessage from "./useSeedphrase/lib/MobileMessage.vue";
 let welcomeVisible = ref(true);
-setTimeout(() => {
-  console.log("Welcome to Darqnet 🔮");
-  welcomeVisible.value = false;
-}, 7500);
+let correctViewport = ref(false);
+const viewportWidth = window.screen.width;
+onMounted(() => {
+  if (viewportWidth >= 1280) {
+    correctViewport.value = true;
+    setTimeout(() => {
+      console.log("Welcome to Darqnet 🔮");
+      welcomeVisible.value = false;
+    }, 7500);
+  }
+});
 </script>
 
 <template>
-  <!-- uncomment this for production -->
-  <h1 v-if="welcomeVisible" class="welcome">DARQNET</h1>
+  <!-- APP LOAD / CEREMONY CHOICE -->
+  <MobileMessage v-if="viewportWidth <= 1280" />
+
+  <h1 v-if="welcomeVisible && correctViewport" class="welcome">DARQNET</h1>
+
   <Transition>
     <ChooseCeremony v-if="!welcomeVisible && !store.ceremonyChosen" />
   </Transition>
+
+  <!-- OPENING CEREMONY -->
+
   <Transition>
     <GetPT v-if="store.ceremonyType === 'open' && !store.acquiredPT" />
   </Transition>
 
-  <!-- remove this for production -->
-  <!-- <Transition>
-    <GetPT v-if="!store.acquiredPT" />
-  </Transition> -->
   <GetIntentions
     v-if="store.beginIntentions && !store.acquiredIntentions"
     :participantLabel="store.participantLabel"
     :key="store.rerender"
   />
+
   <Transition>
     <EncryptionMessage v-if="store.acquiredIntentions" />
   </Transition>
 
   <!-- CLOSING CEREMONY -->
-
-  <!-- remove this for production -->
-  <!-- <Transition>
-    <GetThreshold v-if="!store.acquiredThreshold" />
-  </Transition>
-
-  <GetShards
-    v-if="store.acquiredThreshold && store.collectingShards"
-    :shardNumber="store.shardNumber"
-    :key="store.rerender"
-  />
-
-  <Transition>
-    <DecryptionMessage
-      v-if="store.acquiredClosingShards && store.errorCheckDone"
-    />
-  </Transition>
-
-  <ErrorMessage v-if="store.decryptionError" /> -->
-
-  <!-- uncomment for production -->
 
   <Transition>
     <GetThreshold
