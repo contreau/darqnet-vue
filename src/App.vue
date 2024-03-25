@@ -14,8 +14,6 @@ import ErrorMessage from "./useSeedphrase/lib/closing/ErrorMessage.vue";
 import RevealIntentions from "./useSeedphrase/lib/closing/RevealIntentions.vue";
 let welcomeVisible = ref(true);
 setTimeout(() => {
-  const mask = document.querySelector(".background-mask");
-  mask.style.opacity = 1;
   console.log("Welcome to Darqnet 🔮");
   welcomeVisible.value = false;
 }, 7500);
@@ -102,8 +100,9 @@ setTimeout(() => {
 .v-leave-to {
   opacity: 0;
 }
+
 :root {
-  --bg-dark: #050019;
+  --bg-dark: #060b18;
   font-family: "IM Fell Double Pica SC", serif;
   font-size: 17px;
   color: #fff;
@@ -156,14 +155,6 @@ setTimeout(() => {
   --flame-color: #1942f9;
   --teardrop-ds: #5869b5;
   --success: #04eca3;
-  --bg-mask-primary: linear-gradient(
-    to right,
-    #0a0036,
-    #171352,
-    #2a2071,
-    #3e2e90,
-    #543cb1
-  );
 }
 
 *,
@@ -212,35 +203,6 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-}
-
-.background-mask {
-  opacity: 0;
-  min-height: 100vh;
-  width: 100%;
-  background-image: var(--bg-mask-primary);
-  position: absolute;
-  z-index: -1;
-  transition: opacity 2.2s;
-  background-size: 300%;
-  background-position: top left;
-  animation: shiftBG 2.5s infinite alternate;
-  --mask: radial-gradient(
-        14.76px at calc(100% + 5.85px) 50%,
-        #0000 calc(99% - 1px),
-        #000 calc(101% - 1px) 99%,
-        #0000 101%
-      )
-      calc(50% - 7px + 0.5px) calc(50% - 26px) / 14px 52px,
-    radial-gradient(
-        14.76px at -5.85px 50%,
-        #0000 calc(99% - 1px),
-        #000 calc(101% - 1px) 99%,
-        #0000 101%
-      )
-      calc(50% + 7px) 50%/14px 52px;
-  --webkit-mask: var(--mask);
-  mask: var(--mask);
 }
 
 .ceremonyContainer {
